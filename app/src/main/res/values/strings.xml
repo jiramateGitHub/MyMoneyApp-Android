@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ProjectMyMoney</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">176919613529095</string>
+    <string name="fb_login_protocol_scheme">fb176919613529095</string>
+</resources>

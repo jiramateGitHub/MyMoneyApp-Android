@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "309146514523",
+    "firebase_url": "https://projectandroidmymoney.firebaseio.com",
+    "project_id": "projectandroidmymoney",
+    "storage_bucket": "projectandroidmymoney.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309146514523:android:1f64e819fde2d70015fb7e",
+        "android_client_info": {
+          "package_name": "com.example.projectmymoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309146514523-2a1s6h52i5hmoosldmdmssh93nhgnnrp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.projectmymoney",
+            "certificate_hash": "6bf4ad5c46ca76231130c6ea3344191e65a76ead"
+          }
+        },
+        {
+          "client_id": "309146514523-slhk1ji9fu0ksbe2g58r9senjf7pjek0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADjBtKo9GZLso1qpboDBuXen8B-Vp5_1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309146514523-slhk1ji9fu0ksbe2g58r9senjf7pjek0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
