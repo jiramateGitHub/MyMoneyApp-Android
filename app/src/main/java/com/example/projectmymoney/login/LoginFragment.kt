@@ -137,8 +137,7 @@ class LoginFragment : Fragment() {
                 Log.d(ContentValues.TAG, "signInWithCredential:success")
                 user = firebaseAuth!!.currentUser
 
-                val Home_Fragment = HomeFragment()
-                    .newInstance(user!!.photoUrl.toString(),user!!.displayName.toString(),user!!.email.toString())
+                val Home_Fragment = HomeFragment().newInstance(user!!.photoUrl.toString(),user!!.displayName.toString(),user!!.email.toString())
                 val fm = fragmentManager
                 val transaction : FragmentTransaction = fm!!.beginTransaction()
                 transaction.replace(R.id.contentContainer, Home_Fragment,"fragment_home")
