@@ -10,16 +10,27 @@ import android.widget.*
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 import com.example.projectmymoney.R
+import com.example.projectmymoney.adapter.TransactionAdapter
 import com.facebook.login.LoginManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * A simple [Fragment] subclass.
  */
 class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
+    private lateinit var recyclerView: RecyclerView
+
     var PhotoURL : String = ""
     var Name : String = ""
     var Email : String = ""
@@ -44,32 +55,78 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_home, container, false)
+
+        val mRootRef = FirebaseDatabase.getInstance().reference
+        val mMessagesRef = mRootRef.child("transaction")
+
+        mMessagesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                val list = JSONArray()
+                recyclerView = view.findViewById(R.id.recyLayout)
+
+                val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity!!.baseContext)
+                recyclerView.layoutManager = layoutManager
+
+                for (ds in dataSnapshot.children) {
+
+                    val jObject = JSONObject()
+
+                    val username = ds.child("username").getValue(String::class.java)!!
+                    val categories_name = ds.child("categories_name").getValue(String::class.java)!!
+                    val categories_type = ds.child("categories_type").getValue(String::class.java)!!
+                    val transaction_amount = ds.child("transaction_amount").getValue(String::class.java)!!
+                    val transaction_date = ds.child("transaction_date").getValue(String::class.java)!!
+                    val transaction_note = ds.child("transaction_note").getValue(String::class.java)!!
+
+                    jObject.put("key",ds.key)
+                    jObject.put("username",username)
+                    jObject.put("categories_name",categories_name)
+                    jObject.put("categories_type",categories_type)
+                    jObject.put("transaction_amount",transaction_amount)
+                    jObject.put("transaction_date",transaction_date)
+                    jObject.put("transaction_note",transaction_note)
+
+                    list.put(jObject)
+
+                }
+
+                val adapter = TransactionAdapter(activity!!,list)
+
+                recyclerView.adapter = adapter
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        var btn_transaction: ImageButton = view.findViewById<ImageButton>(R.id.btn_transaction)
-        var btn_report: ImageButton = view.findViewById<ImageButton>(R.id.btn_report)
+        var btn_transaction: ImageButton = view.findViewById<ImageButton>(R.id.view_btn_transaction)
+        var btn_report: ImageButton = view.findViewById<ImageButton>(R.id.view_btn_report)
 
-        var txt_transaction: TextView = view.findViewById<TextView>(R.id.txt_transaction)
-        var txt_report: TextView = view.findViewById<TextView>(R.id.txt_report)
-
-        viewModel.text_btn_transaction.observe(this, Observer {
-            txt_transaction.text = it
-        })
-        viewModel.text_btn_report.observe(this, Observer {
-            txt_report.text = it
-        })
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//        var txt_transaction: TextView = view.findViewById<TextView>(R.id.txt_transaction)
+//        var txt_report: TextView = view.findViewById<TextView>(R.id.txt_report)
+//
+//        viewModel.text_btn_transaction.observe(this, Observer {
+//            txt_transaction.text = it
+//        })
+//        viewModel.text_btn_report.observe(this, Observer {
+//            txt_report.text = it
+//        })
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         val view_ProfilePicture = view.findViewById(R.id.view_profile) as ImageView
         val view_name = view.findViewById(R.id.view_name) as TextView
-        val view_Email = view.findViewById(R.id.view_email) as TextView
-        val btn_logout = view.findViewById(R.id.view_btn_logout) as Button
+        val btn_logout = view.findViewById(R.id.view_btn_logout) as ImageButton
 
         Glide.with(activity!!.baseContext)
             .load(PhotoURL)
             .into(view_ProfilePicture)
 
         view_name.setText(Name)
-        view_Email.setText(Email)
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         val fm = fragmentManager
         val transaction : FragmentTransaction = fm!!.beginTransaction()

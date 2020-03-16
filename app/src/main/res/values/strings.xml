@@ -8,4 +8,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="facebook_app_id">176919613529095</string>
     <string name="fb_login_protocol_scheme">fb176919613529095</string>
+
+
 </resources>
