@@ -1,6 +1,7 @@
 # MyMoneyApp-Android (ระบบจัดการรายรับ - รายจ่าย)
 ### 1 intro ของโปรเจคนี้ 
-ในรายวิชา 88837759 Software Design Patterns ได้พัฒนาระบบจัดการรายรับ-รายจ่าย ในรูปแบบ Hybrid App (Ionic) ไปแล้ว จึงอยากพัฒนาต่อในรูปแบบของ Native App (Android)
+ในรายวิชา 88837759 Software Design Patterns ได้พัฒนาระบบจัดการรายรับ-รายจ่าย ในรูปแบบ Hybrid App (Ionic) ไปแล้ว 
+ในรายวิชา 88832859 Software Engineering for Smart Devices จึงอยากพัฒนาระบบต่อในรูปแบบของ Native App (Android)
 ### 2 องค์ประกอบที่เรานำมาพัฒนาแอปพลิเคชัน
   - Layout (Constraintlayout, Linearlayout)
   - Fragment
