@@ -35,10 +35,12 @@ class HomeFragment : Fragment() {
     var PhotoURL : String = ""
     var Username : String = ""
     var Name : String = ""
+    var Balance : Int = 0
 
     companion object {
         fun newInstance() = HomeFragment()
     }
+
     fun newInstance(url: String,name : String,user : String): HomeFragment {
         var Instance = HomeFragment()
         val bundle = Bundle()
@@ -69,6 +71,8 @@ class HomeFragment : Fragment() {
                 val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity!!.baseContext)
                 recyclerView.layoutManager = layoutManager
 
+                Balance = 0
+
                 for (ds in dataSnapshot.children) {
 
                     val jObject = JSONObject()
@@ -90,6 +94,12 @@ class HomeFragment : Fragment() {
                         jObject.put("transaction_note",transaction_note)
 
                         list.put(jObject)
+
+                        if(categories_type == "income"){
+                            Balance += transaction_amount.toInt()
+                        }else{
+                            Balance -= transaction_amount.toInt()
+                        }
                     }
 
                 }
@@ -97,6 +107,15 @@ class HomeFragment : Fragment() {
                 val adapter = TransactionAdapter(activity!!,list,Username)
 
                 recyclerView.adapter = adapter
+
+                val view_balance = view.findViewById(R.id.view_balance) as TextView
+                if(Balance == 0){
+                    view_balance.setText(Balance.toString())
+                }else if(Balance > 0){
+                    view_balance.setText("+"+Balance.toString())
+                }else{
+                    view_balance.setText("-"+Balance.toString())
+                }
 
             }
 
@@ -146,7 +165,7 @@ class HomeFragment : Fragment() {
         }
 
         btn_report!!.setOnClickListener{
-            val report_Fragment = ReportFragment()
+            val report_Fragment = ReportFragment().newInstance(Username)
             transaction.replace(R.id.contentContainer, report_Fragment,"fragment_report")
             transaction.addToBackStack("fragment_report")
             transaction.commit()

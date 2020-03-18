@@ -56,7 +56,6 @@ class TransactionFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_transaction, container, false)
         // Inflate the layout for this fragment
 
-
         val view_transaction_category = view.findViewById<TextView>(R.id.view_input_categories)
         val view_transaction_note = view.findViewById<TextView>(R.id.view_input_note)
         val view_transaction_date = view.findViewById<TextView>(R.id.view_text_date)

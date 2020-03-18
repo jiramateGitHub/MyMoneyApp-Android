@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="List Transaction"
+            android:text="Balance"
             android:textColor="#FFFFFF"
             android:textSize="21sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
                 android:background="@color/mdtp_light_gray"
-                android:text="Transaction"
+                android:text="Home"
                 android:textColor="#fff"
                 android:textSize="18dp" />
 
