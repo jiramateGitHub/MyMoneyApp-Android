@@ -98,7 +98,19 @@ class ReportFragment : Fragment() {
                     }
 
                 }
+                var view_income = view.findViewById(R.id.text_income) as TextView
+                var view_expense = view.findViewById(R.id.text_expense) as TextView
+                var view_net = view.findViewById(R.id.text_netincome) as TextView
 
+                view_income.setText("+"+ Income.toString())
+                view_expense.setText("-"+ Expense.toString())
+
+                var net_income = Income - Expense
+                if(net_income >= 0){
+                    view_net.setText("+"+net_income)
+                }else{
+                    view_net.setText("-"+net_income)
+                }
                 Pie_id = view.findViewById(R.id.pie_id)
                 Pie_Chart(Pie_id,Income,Expense)
 
