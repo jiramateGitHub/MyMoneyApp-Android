@@ -24,9 +24,11 @@
                 android:id="@+id/view_transaction_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:textStyle="bold"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="view_transaction_category"
+                android:text="transaction_category"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,19 +38,20 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="view_transaction_note"
+                android:text="transaction_note"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view_transaction_category" />
 
             <TextView
                 android:id="@+id/view_transaction_date"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="view_transaction_date"
+                android:text="transaction_date"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/view_transaction_category" />
 
@@ -56,10 +59,11 @@
                 android:id="@+id/view_transaction_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textSize="20dp"
+                android:textStyle="bold"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="view_transaction_amount"
+                android:text="transaction_amount"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/view_transaction_note" />

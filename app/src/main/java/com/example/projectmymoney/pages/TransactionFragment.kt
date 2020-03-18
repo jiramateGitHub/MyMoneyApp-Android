@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -110,18 +111,30 @@ class TransactionFragment : Fragment() {
                 check_insert = false
                 Toast.makeText(activity!!.baseContext, "Please Enter Note", Toast.LENGTH_SHORT).show()
             }else
+
             if(check_insert == true){
-                value_transaction = m_transaction(
-                    "60160157",
-                    view_transaction_category.text.toString(),
-                    category_type,
-                    view_transaction_amount.text.toString(),
-                    dateTime.format(DateTimeFormatter.ofPattern("y-M-d")),
-                    view_transaction_note.text.toString()
-                )
-                mMessagesRef.push().setValue(value_transaction)
-                Toast.makeText(activity!!.baseContext, "Add Transaction Success.", Toast.LENGTH_SHORT).show()
-                activity!!.supportFragmentManager.popBackStack()
+                if(Str_key == ""){
+                    value_transaction = m_transaction(
+                        "60160157",
+                        view_transaction_category.text.toString(),
+                        category_type,
+                        view_transaction_amount.text.toString(),
+                        dateTime.format(DateTimeFormatter.ofPattern("y-M-d")),
+                        view_transaction_note.text.toString()
+                    )
+                    mMessagesRef.push().setValue(value_transaction)
+                    Toast.makeText(activity!!.baseContext, "Add Transaction Success.", Toast.LENGTH_SHORT).show()
+                    activity!!.supportFragmentManager.popBackStack()
+                }else{
+                    mMessagesRef.child(Str_key).child("categories_name").setValue(view_transaction_category.text.toString())
+                    mMessagesRef.child(Str_key).child("categories_type").setValue(category_type)
+                    mMessagesRef.child(Str_key).child("transaction_amount").setValue(view_transaction_amount.text.toString())
+                    mMessagesRef.child(Str_key).child("transaction_note").setValue(view_transaction_note.text.toString())
+
+                    Toast.makeText(activity!!.baseContext, "Update Transaction Success.", Toast.LENGTH_SHORT).show()
+                    activity!!.supportFragmentManager.popBackStack()
+                }
+
             }
         }
 

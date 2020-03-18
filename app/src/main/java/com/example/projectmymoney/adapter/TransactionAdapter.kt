@@ -1,6 +1,7 @@
 package com.example.projectmymoney.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +57,13 @@ class TransactionAdapter (fragmentActivity: FragmentActivity, val dataSource: JS
         holder.view_transaction_category.setText( dataSource.getJSONObject(position).getString("categories_name").toString() )
         holder.view_transaction_note.setText( dataSource.getJSONObject(position).getString("transaction_note").toString() )
         holder.view_transaction_date.setText( dataSource.getJSONObject(position).getString("transaction_date").toString() )
-        holder.view_transaction_amount.setText( dataSource.getJSONObject(position).getString("transaction_amount").toString() )
+        if(dataSource.getJSONObject(position).getString("categories_type").toString() == "income"){
+            holder.view_transaction_amount.setText( "+" + dataSource.getJSONObject(position).getString("transaction_amount").toString() )
+            holder.view_transaction_amount.setTextColor(Color.parseColor("#C3B043"))
+        }else{
+            holder.view_transaction_amount.setText( "-" + dataSource.getJSONObject(position).getString("transaction_amount").toString() )
+            holder.view_transaction_amount.setTextColor(Color.parseColor("#FF0000"))
+        }
 
 
         holder.layout.setOnClickListener {
