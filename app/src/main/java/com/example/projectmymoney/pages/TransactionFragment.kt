@@ -1,8 +1,10 @@
 package com.example.projectmymoney.pages
 
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.ProgressDialog.show
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -62,6 +64,7 @@ class TransactionFragment : Fragment() {
         val view_transaction_category_type = view.findViewById<RadioGroup>(R.id.view_radio_type)
         val view_text_header = view.findViewById<TextView>(R.id.text_header)
         val btn_back = view.findViewById(R.id.view_btn_back) as ImageButton
+        val btn_delete = view.findViewById(R.id.view_btn_delete) as ImageButton
 
         val dateTime = LocalDateTime.now()
         var category_type = ""
@@ -82,6 +85,7 @@ class TransactionFragment : Fragment() {
             view_transaction_category_type.check(R.id.radio_income)
             category_type = "income"
             view_text_header.setText("Add Transaction")
+            btn_delete.setVisibility(View.GONE)
         }
 
 0
@@ -119,7 +123,7 @@ class TransactionFragment : Fragment() {
             if(check_insert == true){
                 if(Str_key == ""){
                     value_transaction = m_transaction(
-                        "60160157",
+                        value_transaction.username,
                         view_transaction_category.text.toString(),
                         category_type,
                         view_transaction_amount.text.toString(),
@@ -135,11 +139,31 @@ class TransactionFragment : Fragment() {
                     mMessagesRef.child(Str_key).child("transaction_amount").setValue(view_transaction_amount.text.toString())
                     mMessagesRef.child(Str_key).child("transaction_note").setValue(view_transaction_note.text.toString())
 
-                    Toast.makeText(activity!!.baseContext, "Update Transaction Success.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity!!.baseContext, "Update Transaction Successful.", Toast.LENGTH_SHORT).show()
                     activity!!.supportFragmentManager.popBackStack()
                 }
 
             }
+        }
+
+        btn_delete.setOnClickListener{
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
+            builder.setMessage("Confirm to delete?")
+            builder.setPositiveButton("Delete",
+                DialogInterface.OnClickListener { dialog, id ->
+                    val mMessagesRef = mRootRef.child("transaction").child(Str_key)
+
+                    mMessagesRef.setValue(null)
+
+                    Toast.makeText(activity!!.baseContext, "Delete Transaction Successful.", Toast.LENGTH_SHORT).show()
+                    val fm: FragmentManager = activity!!.getSupportFragmentManager()
+                    fm.popBackStack("fragment_transaction", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                })
+            builder.setNegativeButton("Cancel",
+                DialogInterface.OnClickListener { dialog, which ->
+                    //dialog.dismiss();
+                })
+            builder.show()
         }
 
         btn_back.setOnClickListener{

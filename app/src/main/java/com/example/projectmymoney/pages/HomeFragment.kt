@@ -33,18 +33,18 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
 
     var PhotoURL : String = ""
+    var Username : String = ""
     var Name : String = ""
-    var Email : String = ""
 
     companion object {
         fun newInstance() = HomeFragment()
     }
-    fun newInstance(url: String,name : String,email : String): HomeFragment {
+    fun newInstance(url: String,name : String,user : String): HomeFragment {
         var Instance = HomeFragment()
         val bundle = Bundle()
         bundle.putString("PhotoURL", url)
         bundle.putString("Name", name)
-        bundle.putString("Email", email)
+        bundle.putString("Username", user)
         Instance.setArguments(bundle)
         return Instance
     }
@@ -80,19 +80,21 @@ class HomeFragment : Fragment() {
                     val transaction_date = ds.child("transaction_date").getValue(String::class.java)!!
                     val transaction_note = ds.child("transaction_note").getValue(String::class.java)!!
 
-                    jObject.put("key",ds.key)
-                    jObject.put("username",username)
-                    jObject.put("categories_name",categories_name)
-                    jObject.put("categories_type",categories_type)
-                    jObject.put("transaction_amount",transaction_amount)
-                    jObject.put("transaction_date",transaction_date)
-                    jObject.put("transaction_note",transaction_note)
+                    if(username == Username){
+                        jObject.put("key",ds.key)
+                        jObject.put("username",username)
+                        jObject.put("categories_name",categories_name)
+                        jObject.put("categories_type",categories_type)
+                        jObject.put("transaction_amount",transaction_amount)
+                        jObject.put("transaction_date",transaction_date)
+                        jObject.put("transaction_note",transaction_note)
 
-                    list.put(jObject)
+                        list.put(jObject)
+                    }
 
                 }
 
-                val adapter = TransactionAdapter(activity!!,list)
+                val adapter = TransactionAdapter(activity!!,list,Username)
 
                 recyclerView.adapter = adapter
 
@@ -137,7 +139,7 @@ class HomeFragment : Fragment() {
         var btn_report: Button = view.findViewById<Button>(R.id.view_btn_tab_report)
 
         btn_transaction!!.setOnClickListener{
-            val transaction_Fragment = TransactionFragment()
+            val transaction_Fragment = TransactionFragment().newInstance("", "", "", "", "", "", Username)
             transaction.replace(R.id.contentContainer, transaction_Fragment,"fragment_transaction")
             transaction.addToBackStack("fragment_transaction")
             transaction.commit()
@@ -173,8 +175,8 @@ class HomeFragment : Fragment() {
         val bundle = arguments
         if (bundle != null) {
             PhotoURL = bundle.getString("PhotoURL").toString()
+            Username = bundle.getString("Username").toString()
             Name = bundle.getString("Name").toString()
-            Email = bundle.getString("Email").toString()
 
         }
     }

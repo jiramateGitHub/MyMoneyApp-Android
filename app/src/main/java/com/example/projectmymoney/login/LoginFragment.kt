@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
         val fm = fragmentManager
         val transaction : FragmentTransaction = fm!!.beginTransaction()
 
-        val  username = view.findViewById<EditText>(R.id.editUsername) as EditText
+        val username = view.findViewById<EditText>(R.id.editUsername) as EditText
         val password = view.findViewById<EditText>(R.id.editPassword) as EditText
         val signin = view.findViewById<Button>(R.id.signin) as Button
         val signup = view.findViewById<TextView>(R.id.text_signup) as TextView
@@ -104,11 +104,13 @@ class LoginFragment : Fragment() {
             if(validate == true){
                 var check_username = false
                 var check_password = false
+                var account_name = ""
                 for (i in 0 until list.length()) {
                     if(list.getJSONObject(i).getString("username").toString() == username.text.toString()){
                         check_username = true
                         if(list.getJSONObject(i).getString("password").toString() == password.text.toString()){
                             check_password = true
+                            account_name = list.getJSONObject(i).getString("account_name").toString()
                             break
                         }
                     }
@@ -116,11 +118,11 @@ class LoginFragment : Fragment() {
                 }
 
                 if(check_username == true && check_password == true){
-                    Toast.makeText(context,"Welcome " + username!!.text.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Welcome " + account_name!!.toString(), Toast.LENGTH_SHORT).show()
 
                     var url_img = "https://previews.123rf.com/images/afe207/afe2071306/afe207130600098/20416813-male-profile-picture.jpg"
 
-                    val Home_Fragment = HomeFragment().newInstance(url_img,username!!.text.toString(),username!!.text.toString()+"@gmail.com")
+                    val Home_Fragment = HomeFragment().newInstance(url_img, account_name!!.toString(),username!!.text.toString())
                     transaction.replace(R.id.contentContainer, Home_Fragment,"fragment_home")
                     transaction.addToBackStack("fragment_home")
                     transaction.commit()

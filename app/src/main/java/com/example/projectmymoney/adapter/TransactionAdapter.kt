@@ -16,7 +16,7 @@ import com.example.projectmymoney.pages.TransactionFragment
 import kotlinx.android.synthetic.main.layout_transaction.view.*
 import org.json.JSONArray
 
-class TransactionAdapter (fragmentActivity: FragmentActivity, val dataSource: JSONArray) : RecyclerView.Adapter<TransactionAdapter.Holder>() {
+class TransactionAdapter (fragmentActivity: FragmentActivity, val dataSource: JSONArray, val account_username:String) : RecyclerView.Adapter<TransactionAdapter.Holder>() {
 
     //    private val thiscontext : Context = context
     private val thiscontext : Context = fragmentActivity.baseContext
