@@ -1,6 +1,6 @@
 # MyMoneyApp-Android (ระบบจัดการรายรับ - รายจ่าย)
 ### 1 intro ของโปรเจคนี้ 
-ในรายวิชา 88837759 Software Design Patterns ได้พัฒนาระบบจัดการรายรับ-รายจ่าย ในรูปแบบ Hybrid App (Ionic) ไปแล้ว 
+ในรายวิชา 88837759 Software Design Patterns ได้พัฒนาระบบจัดการรายรับ-รายจ่าย ในรูปแบบ Hybrid App (Ionic) ไปแล้ว   
 ในรายวิชา 88832859 Software Engineering for Smart Devices จึงอยากพัฒนาระบบต่อในรูปแบบของ Native App (Android)
 ### 2 องค์ประกอบที่เรานำมาพัฒนาแอปพลิเคชัน
   - Layout (Constraintlayout, Linearlayout)
@@ -9,7 +9,7 @@
   - Login Facebook Authen
   - Realtime database (show, insert, update, delete)
   - Dialog alert
-  - Graph by MPAndroidChart"
+  - Graph by MPAndroidChart
 ### 3. หน้าจอผลลัพธ์ ของแอปพลิเคชัน
 ![alt text](https://i.ibb.co/kcWysQQ/1.jpg)
 ![alt text](https://i.ibb.co/nCjx3Xs/2.jpg)
