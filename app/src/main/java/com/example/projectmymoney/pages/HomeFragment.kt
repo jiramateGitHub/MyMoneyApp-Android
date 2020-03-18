@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 
 import com.example.projectmymoney.R
 import com.example.projectmymoney.adapter.TransactionAdapter
+import com.example.projectmymoney.login.LoginFragment
 import com.facebook.login.LoginManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -103,10 +104,8 @@ class HomeFragment : Fragment() {
 
         })
 
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        var btn_transaction: Button = view.findViewById<Button>(R.id.view_btn_transaction)
-        var btn_report: Button = view.findViewById<Button>(R.id.view_btn_tab_report)
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
 //        var txt_transaction: TextView = view.findViewById<TextView>(R.id.txt_transaction)
 //        var txt_report: TextView = view.findViewById<TextView>(R.id.txt_report)
@@ -118,6 +117,8 @@ class HomeFragment : Fragment() {
 //            txt_report.text = it
 //        })
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
         val view_ProfilePicture = view.findViewById(R.id.view_profile) as ImageView
         val view_name = view.findViewById(R.id.view_name) as TextView
         val btn_logout = view.findViewById(R.id.view_btn_logout) as ImageButton
@@ -127,9 +128,13 @@ class HomeFragment : Fragment() {
             .into(view_ProfilePicture)
 
         view_name.setText(Name)
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         val fm = fragmentManager
         val transaction : FragmentTransaction = fm!!.beginTransaction()
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var btn_transaction: Button = view.findViewById<Button>(R.id.view_btn_transaction)
+        var btn_report: Button = view.findViewById<Button>(R.id.view_btn_tab_report)
 
         btn_transaction!!.setOnClickListener{
             val transaction_Fragment = TransactionFragment()
@@ -147,7 +152,10 @@ class HomeFragment : Fragment() {
 
         btn_logout.setOnClickListener{
             LoginManager.getInstance().logOut()
-            activity!!.supportFragmentManager.popBackStack()
+            val LoginFragment = LoginFragment()
+            transaction.replace(R.id.contentContainer, LoginFragment,"fragment_login")
+            transaction.addToBackStack("fragment_login")
+            transaction.commit()
         }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

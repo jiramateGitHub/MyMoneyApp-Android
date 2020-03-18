@@ -60,6 +60,8 @@ class TransactionFragment : Fragment() {
         val view_transaction_date = view.findViewById<TextView>(R.id.view_text_date)
         val view_transaction_amount = view.findViewById<TextView>(R.id.view_input_amount)
         val view_transaction_category_type = view.findViewById<RadioGroup>(R.id.view_radio_type)
+        val view_text_header = view.findViewById<TextView>(R.id.text_header)
+        val btn_back = view.findViewById(R.id.view_btn_back) as ImageButton
 
         val dateTime = LocalDateTime.now()
         var category_type = ""
@@ -67,17 +69,19 @@ class TransactionFragment : Fragment() {
         if(Str_key != ""){
             view_transaction_category.setText(value_transaction.categories_name)
             view_transaction_note.setText(value_transaction.transaction_note)
-            view_transaction_date.setText(value_transaction.transaction_date)
+            view_transaction_date.setText("Date: " + value_transaction.transaction_date)
             view_transaction_amount.setText(value_transaction.transaction_amount)
             if(value_transaction.categories_type == "income"){
                 view_transaction_category_type.check(R.id.radio_income)
             }else{
                 view_transaction_category_type.check(R.id.radio_expense)
             }
+            view_text_header.setText("Update Transaction")
         }else{
-            view_transaction_date.setText(dateTime.format(DateTimeFormatter.ofPattern("y-M-d")))
+            view_transaction_date.setText("Date: " + dateTime.format(DateTimeFormatter.ofPattern("y-M-d")))
             view_transaction_category_type.check(R.id.radio_income)
             category_type = "income"
+            view_text_header.setText("Add Transaction")
         }
 
 0
@@ -136,6 +140,11 @@ class TransactionFragment : Fragment() {
                 }
 
             }
+        }
+
+        btn_back.setOnClickListener{
+            LoginManager.getInstance().logOut()
+            activity!!.supportFragmentManager.popBackStack()
         }
 
 

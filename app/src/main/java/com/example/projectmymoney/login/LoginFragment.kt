@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 
@@ -24,15 +25,17 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.example.projectmymoney.R
 import com.example.projectmymoney.pages.HomeFragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * A simple [Fragment] subclass.
  */
 class LoginFragment : Fragment() {
-
-    private var username : EditText? = null
-    private var password : EditText? = null
-    private var signin : Button? = null
 
     var user : FirebaseUser? = null
     lateinit var facebookSignInButton : LoginButton
@@ -47,24 +50,94 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         val view : View =  inflater.inflate(R.layout.fragment_login, container, false)
 
-        username = view.findViewById<EditText>(R.id.editUsername)
-        password = view.findViewById<EditText>(R.id.editPassword)
-        signin = view.findViewById<Button>(R.id.signin)
+        val fm = fragmentManager
+        val transaction : FragmentTransaction = fm!!.beginTransaction()
+
+        val  username = view.findViewById<EditText>(R.id.editUsername) as EditText
+        val password = view.findViewById<EditText>(R.id.editPassword) as EditText
+        val signin = view.findViewById<Button>(R.id.signin) as Button
+        val signup = view.findViewById<TextView>(R.id.text_signup) as TextView
+
+        val mRootRef = FirebaseDatabase.getInstance().getReference()
+        val mMessagesRef = mRootRef.child("account")
+
+        val list = JSONArray()
+
+        mMessagesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (ds in dataSnapshot.children) {
+
+                    val jObject = JSONObject()
+
+                    val temp_name = ds.child("account_name").getValue(String::class.java)!!
+                    val temp_username = ds.child("username").getValue(String::class.java)!!
+                    val temp_password = ds.child("password").getValue(String::class.java)!!
+
+                    jObject.put("key",ds.key)
+                    jObject.put("account_name",temp_name)
+                    jObject.put("username",temp_username)
+                    jObject.put("password",temp_password)
+
+                    list.put(jObject)
+
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
 
         signin!!.setOnClickListener{
-            Toast.makeText(context,"Hello " + username!!.text.toString(), Toast.LENGTH_SHORT).show()
-//            val fragmentListView = profile().newInstance(username!!.text.toString(),password!!.text.toString())
-            var url_img = "https://previews.123rf.com/images/afe207/afe2071306/afe207130600098/20416813-male-profile-picture.jpg"
+            var validate = true
+            if(username.text.toString() == ""){
+                validate = false
+                Toast.makeText(activity!!.baseContext, "Please enter username.", Toast.LENGTH_SHORT).show()
+            }else if(password.text.toString() == ""){
+                validate = false
+                Toast.makeText(activity!!.baseContext, "Please enter password.", Toast.LENGTH_SHORT).show()
+            }
 
-            val fm = fragmentManager
-            val transaction : FragmentTransaction = fm!!.beginTransaction()
+            if(validate == true){
+                var check_username = false
+                var check_password = false
+                for (i in 0 until list.length()) {
+                    if(list.getJSONObject(i).getString("username").toString() == username.text.toString()){
+                        check_username = true
+                        if(list.getJSONObject(i).getString("password").toString() == password.text.toString()){
+                            check_password = true
+                            break
+                        }
+                    }
+                    // use item
+                }
 
-            val Home_Fragment = HomeFragment().newInstance(url_img,username!!.text.toString(),username!!.text.toString()+"@gmail.com")
-            transaction.replace(R.id.contentContainer, Home_Fragment,"fragment_home")
-            transaction.addToBackStack("fragment_home")
-            transaction.commit()
+                if(check_username == true && check_password == true){
+                    Toast.makeText(context,"Welcome " + username!!.text.toString(), Toast.LENGTH_SHORT).show()
 
+                    var url_img = "https://previews.123rf.com/images/afe207/afe2071306/afe207130600098/20416813-male-profile-picture.jpg"
+
+                    val Home_Fragment = HomeFragment().newInstance(url_img,username!!.text.toString(),username!!.text.toString()+"@gmail.com")
+                    transaction.replace(R.id.contentContainer, Home_Fragment,"fragment_home")
+                    transaction.addToBackStack("fragment_home")
+                    transaction.commit()
+                }else{
+                    Toast.makeText(context,"Username or Password Incorrect.", Toast.LENGTH_SHORT).show()
+                }
+
+            }
         }
+
+        signup!!.setOnClickListener{
+            val RegisterFragment = RegisterFragment()
+            transaction.replace(R.id.contentContainer, RegisterFragment,"fragment_register")
+            transaction.addToBackStack("fragment_register")
+            transaction.commit()
+        }
+
 
         callbackManager = CallbackManager.Factory.create()
         facebookSignInButton  = view.findViewById(R.id.login_button) as LoginButton
