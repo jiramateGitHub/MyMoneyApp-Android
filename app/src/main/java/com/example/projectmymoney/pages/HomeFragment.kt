@@ -105,8 +105,8 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        var btn_transaction: ImageButton = view.findViewById<ImageButton>(R.id.view_btn_transaction)
-        var btn_report: ImageButton = view.findViewById<ImageButton>(R.id.view_btn_report)
+        var btn_transaction: Button = view.findViewById<Button>(R.id.view_btn_transaction)
+        var btn_report: Button = view.findViewById<Button>(R.id.view_btn_tab_report)
 
 //        var txt_transaction: TextView = view.findViewById<TextView>(R.id.txt_transaction)
 //        var txt_report: TextView = view.findViewById<TextView>(R.id.txt_report)
