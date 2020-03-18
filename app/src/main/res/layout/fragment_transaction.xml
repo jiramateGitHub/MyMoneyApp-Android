@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/view_radio_type" />
 
     <EditText
         android:id="@+id/view_input_categories"
@@ -91,14 +91,15 @@
 
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/view_radio_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radio_income"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -106,38 +107,29 @@
             android:text="Income" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/radio_expense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:text="Expense"
-            app:layout_constraintBottom_toBottomOf="@+id/radioButton"
-            app:layout_constraintStart_toEndOf="@+id/radioButton" />
+            app:layout_constraintBottom_toBottomOf="@+id/radio_income"
+            app:layout_constraintStart_toEndOf="@+id/radio_income" />
 
     </RadioGroup>
 
     <TextView
-        android:id="@+id/tvDate"
+        android:id="@+id/view_text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="44dp"
         android:hint="Select Date"
-        android:textSize="15sp"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/view_input_amount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
-
-    <Button
-        android:id="@+id/view_btn_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Select Date"
-        app:layout_constraintEnd_toEndOf="@+id/tvDate"
-        app:layout_constraintHorizontal_bias="0.416"
-        app:layout_constraintStart_toStartOf="@+id/tvDate"
-        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

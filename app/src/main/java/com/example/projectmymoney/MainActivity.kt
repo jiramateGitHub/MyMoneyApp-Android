@@ -12,12 +12,18 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
 
+import java.text.SimpleDateFormat
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
-
+    var formate = SimpleDateFormat("dd MMM, YYYY",Locale.US)
+    var timeFormat = SimpleDateFormat("hh:mm a", Locale.US)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         debugHashKey()
         try {
             this.supportActionBar!!.hide()

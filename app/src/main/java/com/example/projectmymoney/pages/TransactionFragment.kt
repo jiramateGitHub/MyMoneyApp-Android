@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -32,6 +30,13 @@ import org.json.JSONObject
 import java.util.*
 import kotlin.math.log
 
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.Month
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+
 /**
  * A simple [Fragment] subclass.
  */
@@ -51,14 +56,30 @@ class TransactionFragment : Fragment() {
 
         val view_transaction_category = view.findViewById<TextView>(R.id.view_input_categories)
         val view_transaction_note = view.findViewById<TextView>(R.id.view_input_note)
-        val view_transaction_date = view.findViewById<TextView>(R.id.tvDate)
+        val view_transaction_date = view.findViewById<TextView>(R.id.view_text_date)
         val view_transaction_amount = view.findViewById<TextView>(R.id.view_input_amount)
+        val view_transaction_category_type = view.findViewById<RadioGroup>(R.id.view_radio_type)
 
-        view_transaction_category.setText(value_transaction.categories_name)
-        view_transaction_note.setText(value_transaction.transaction_note)
-        view_transaction_date.setText(value_transaction.transaction_date)
-        view_transaction_amount.setText(value_transaction.transaction_amount)
+        val dateTime = LocalDateTime.now()
+        var category_type = ""
 
+        if(Str_key != ""){
+            view_transaction_category.setText(value_transaction.categories_name)
+            view_transaction_note.setText(value_transaction.transaction_note)
+            view_transaction_date.setText(value_transaction.transaction_date)
+            view_transaction_amount.setText(value_transaction.transaction_amount)
+            if(value_transaction.categories_type == "income"){
+                view_transaction_category_type.check(R.id.radio_income)
+            }else{
+                view_transaction_category_type.check(R.id.radio_expense)
+            }
+        }else{
+            view_transaction_date.setText(dateTime.format(DateTimeFormatter.ofPattern("y-M-d")))
+            view_transaction_category_type.check(R.id.radio_income)
+            category_type = "income"
+        }
+
+0
         val btn4 = view.findViewById<Button>(R.id.btn4)
 
         //ประกาศตัวแปร DatabaseReference รับค่า Instance และอ้างถึง path ที่เราต้องการใน database
@@ -67,18 +88,41 @@ class TransactionFragment : Fragment() {
         //อ้างอิงไปที่ path ที่เราต้องการจะจัดการข้อมูล ตัวอย่างคือ users และ messages
         val mMessagesRef = mRootRef.child("transaction")
 
-        btn4.setOnClickListener {
-            value_transaction = m_transaction(
-                "60160157",
-                "Salary",
-                "income",
-                "5000",
-                "2563-3-12",
-                "no comment"
-            )
-            mMessagesRef.push().setValue(value_transaction)
+        view_transaction_category_type.setOnCheckedChangeListener{group, checkedId ->
+            if(checkedId == R.id.radio_income){
+                category_type = "income"
+            }else if(checkedId == R.id.radio_expense){
+                category_type = "expense"
+            }
+        }
 
-            activity!!.supportFragmentManager.popBackStack()
+        btn4.setOnClickListener {
+            var check_insert = true
+            if(view_transaction_amount.text.toString() == ""){
+                check_insert = false
+                Toast.makeText(activity!!.baseContext, "Please Enter Amount", Toast.LENGTH_SHORT).show()
+            }else
+            if(view_transaction_category.text.toString() == ""){
+                check_insert = false
+                Toast.makeText(activity!!.baseContext, "Please Enter Category", Toast.LENGTH_SHORT).show()
+            }else
+            if(view_transaction_note.text.toString() == ""){
+                check_insert = false
+                Toast.makeText(activity!!.baseContext, "Please Enter Note", Toast.LENGTH_SHORT).show()
+            }else
+            if(check_insert == true){
+                value_transaction = m_transaction(
+                    "60160157",
+                    view_transaction_category.text.toString(),
+                    category_type,
+                    view_transaction_amount.text.toString(),
+                    dateTime.format(DateTimeFormatter.ofPattern("y-M-d")),
+                    view_transaction_note.text.toString()
+                )
+                mMessagesRef.push().setValue(value_transaction)
+                Toast.makeText(activity!!.baseContext, "Add Transaction Success.", Toast.LENGTH_SHORT).show()
+                activity!!.supportFragmentManager.popBackStack()
+            }
         }
 
 

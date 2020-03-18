@@ -58,6 +58,7 @@ class TransactionAdapter (fragmentActivity: FragmentActivity, val dataSource: JS
         holder.view_transaction_date.setText( dataSource.getJSONObject(position).getString("transaction_date").toString() )
         holder.view_transaction_amount.setText( dataSource.getJSONObject(position).getString("transaction_amount").toString() )
 
+
         holder.layout.setOnClickListener {
             var key = dataSource.getJSONObject(position).getString("key").toString()
             var categories_name = dataSource.getJSONObject(position).getString("categories_name").toString()
